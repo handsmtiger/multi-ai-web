@@ -141,6 +141,9 @@
       .kc-status.ok { color: var(--ok); font-weight: 600; }
       .kc-status.bad { color: var(--err); font-weight: 600; }
       .kc-note { font-size: 12px; color: var(--ink-3); margin-top: 7px; }
+      .proxyrow { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+      .proxyrow .btn.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-strong); }
+      a.btn { text-decoration: none; }
 
       .group-label { display: flex; align-items: center; gap: 8px; margin: 14px 0 8px; font-size: 13px; font-weight: 700; color: var(--ink-2); }
       .group-label:first-of-type { margin-top: 8px; }
@@ -433,7 +436,11 @@
               <span class="kc-status" id="statusNvidia">NVIDIA가 호스팅하는 GLM·DeepSeek·Kimi·Nemotron 등을 호출합니다.</span>
             </div>
             <div class="kc-note">build.nvidia.com 카탈로그 모델은 API 키로 무료 티어(속도 제한) 호출이 가능합니다.</div>
-            <div class="kc-note">NVIDIA API는 build.nvidia.com 이외의 페이지에서 브라우저가 직접 호출하는 것을 CORS 정책으로 막습니다. 그래서 이 페이지에서 연결하면 키가 올바라도 "Failed to fetch"로 실패합니다 — 키 자체의 문제가 아닙니다. NVIDIA 모델을 쓰려면 OpenRouter 경유를 이용하거나, NVIDIA 키를 Cherry Studio 같은 데스크톱 앱에 넣어 연결하세요.</div>
+            <div class="proxyrow">
+              <button class="btn small" id="proxyToggle" type="button">프록시 경유: 켜짐</button>
+              <a class="btn small" href="data:application/javascript;base64,Ly8gTlZJRElBIEFQSSDtlITroZ3si5wg4oCUIFZlcmNlbCDshJzrsoTrpqzsiqQg7ZWo7IiYCi8vCi8vIOuwsO2PrCDrsKnrspU6IOydtCDtjIzsnbzsnYQgR2l0SHViIHJlcG/snZggYXBpIO2PtOuNlCDslYjsl5AgbnZpZGlhLmpzIOudvOuKlCDsnbTrpoTsnLzroZwKLy8g64Sj7Jy87IS47JqUIChyZXBvIOujqO2KuC9pbmRleC5odG1sLCByZXBvIOujqO2KuC9hcGkvbnZpZGlhLmpzIOq1rOyEsSkuCi8vIFZlcmNlbOydtCDsnpDrj5nsnLzroZwgL2FwaS9udmlkaWEg7JeU65Oc7Y+s7J247Yq466GcIOuwsO2PrO2VqeuLiOuLpC4KLy8KLy8g7Jet7ZWgOiDruIzrnbzsmrDsoIDqsIAg67O064K4IE5WSURJQSDsmpTssq3snYQg7J20IO2VqOyImOqwgCDrjIDsi6AgTlZJRElBIOyEnOuyhOuhnCDsoITri6ztlanri4jri6QuCi8vIE5WSURJQSBBUEnripQgYnVpbGQubnZpZGlhLmNvbSDsnbTsmbjsnZgg7Ju57Y6Y7J207KeA7JeQ7IScIOyYpOuKlCDruIzrnbzsmrDsoIAg7KeB7KCRIO2YuOy2nOydhAovLyBDT1JTIOygleyxheycvOuhnCDssKjri6jtlZjsp4Drp4wsIOyEnOuyhOyXkOyEnCDrs7TrgrTripQg7Zi47Lac7J2AIOywqOuLqO2VmOyngCDslYrsirXri4jri6QuCi8vIEFQSSDtgqTripQg7J20IO2VqOyImOuhnOunjCDsoITri6zrkJjqs6Ag7Ja065SU7JeQ64+EIOyggOyepeuQmOyngCDslYrsirXri4jri6QuCi8vCi8vIO2XiOyaqSDqsr3roZwgKHBhdGgg7L+866asIO2MjOudvOuvuO2EsCk6Ci8vICAgdjEvbW9kZWxzICAgICAgICAgICAgLT4gaHR0cHM6Ly9pbnRlZ3JhdGUuYXBpLm52aWRpYS5jb20vdjEvbW9kZWxzCi8vICAgdjEvY2hhdC9jb21wbGV0aW9ucyAgLT4gaHR0cHM6Ly9pbnRlZ3JhdGUuYXBpLm52aWRpYS5jb20vdjEvY2hhdC9jb21wbGV0aW9ucwovLyAgIGdlbmFpLzwuLi4g64KY66i47KeAPiAgIC0+IGh0dHBzOi8vYWkuYXBpLm52aWRpYS5jb20vdjEvZ2VuYWkvPC4uLiDrgpjrqLjsp4A+Ci8vIOq3uCDsmbgg6rK966Gc64qUIDQwMOycvOuhnCDqsbDrtoDtlanri4jri6QgKOqzteqwnCDtlITroZ3si5zroZwg7JWF7JqpIOuwqeyngCkuCgptb2R1bGUuZXhwb3J0cyA9IGFzeW5jIGZ1bmN0aW9uIGhhbmRsZXIocmVxLCByZXMpIHsKICByZXMuc2V0SGVhZGVyKCJ4LWFpLXByb3h5IiwgIm52aWRpYSIpOwoKICB2YXIgcmF3UGF0aCA9IChyZXEucXVlcnkgJiYgcmVxLnF1ZXJ5LnBhdGgpIHx8ICIiOwogIGlmIChBcnJheS5pc0FycmF5KHJhd1BhdGgpKSByYXdQYXRoID0gcmF3UGF0aC5qb2luKCIvIik7CiAgdmFyIHBhdGggPSBTdHJpbmcocmF3UGF0aCkucmVwbGFjZSgvXlwvKy8sICIiKTsKCiAgdmFyIHVwc3RyZWFtID0gbnVsbDsKICBpZiAocGF0aCA9PT0gInYxL21vZGVscyIgfHwgcGF0aCA9PT0gInYxL2NoYXQvY29tcGxldGlvbnMiKSB7CiAgICB1cHN0cmVhbSA9ICJodHRwczovL2ludGVncmF0ZS5hcGkubnZpZGlhLmNvbS8iICsgcGF0aDsKICB9IGVsc2UgaWYgKHBhdGguaW5kZXhPZigiZ2VuYWkvIikgPT09IDAgJiYgcGF0aC5sZW5ndGggPiAiZ2VuYWkvIi5sZW5ndGgpIHsKICAgIHVwc3RyZWFtID0gImh0dHBzOi8vYWkuYXBpLm52aWRpYS5jb20vdjEvIiArIHBhdGg7CiAgfQogIGlmICghdXBzdHJlYW0pIHsKICAgIHJlcy5zdGF0dXNDb2RlID0gNDAwOwogICAgcmVzLnNldEhlYWRlcigiQ29udGVudC1UeXBlIiwgImFwcGxpY2F0aW9uL2pzb247IGNoYXJzZXQ9dXRmLTgiKTsKICAgIHJlcy5lbmQoSlNPTi5zdHJpbmdpZnkoeyBlcnJvcjogeyBtZXNzYWdlOiAi7ZeI7Jqp65CY7KeAIOyViuydgCDtlITroZ3si5wg6rK966Gc7J6F64uI64ukOiAiICsgcGF0aCB9IH0pKTsKICAgIHJldHVybjsKICB9CgogIC8vIOyalOyyrSDrs7jrrLjsnYQg6re464yA66GcIOydveyKteuLiOuLpCAoYm9keVBhcnNlciDruYTtmZzshLHtmZQg7ISk7KCV7J2AIO2MjOydvCDtlZjri6gg7LC47KGwKS4KICB2YXIgY2h1bmtzID0gW107CiAgYXdhaXQgbmV3IFByb21pc2UoZnVuY3Rpb24gKHJlc29sdmUsIHJlamVjdCkgewogICAgcmVxLm9uKCJkYXRhIiwgZnVuY3Rpb24gKGMpIHsgY2h1bmtzLnB1c2goYyk7IH0pOwogICAgcmVxLm9uKCJlbmQiLCByZXNvbHZlKTsKICAgIHJlcS5vbigiZXJyb3IiLCByZWplY3QpOwogIH0pOwogIHZhciBib2R5ID0gQnVmZmVyLmNvbmNhdChjaHVua3MpOwoKICB2YXIgaGVhZGVycyA9IHt9OwogIGlmIChyZXEuaGVhZGVycy5hdXRob3JpemF0aW9uKSBoZWFkZXJzWyJBdXRob3JpemF0aW9uIl0gPSByZXEuaGVhZGVycy5hdXRob3JpemF0aW9uOwogIGlmIChyZXEuaGVhZGVyc1siY29udGVudC10eXBlIl0pIGhlYWRlcnNbIkNvbnRlbnQtVHlwZSJdID0gcmVxLmhlYWRlcnNbImNvbnRlbnQtdHlwZSJdOwogIGlmIChyZXEuaGVhZGVycy5hY2NlcHQpIGhlYWRlcnNbIkFjY2VwdCJdID0gcmVxLmhlYWRlcnMuYWNjZXB0OwoKICB2YXIgaW5pdCA9IHsgbWV0aG9kOiByZXEubWV0aG9kLCBoZWFkZXJzOiBoZWFkZXJzIH07CiAgaWYgKHJlcS5tZXRob2QgIT09ICJHRVQiICYmIHJlcS5tZXRob2QgIT09ICJIRUFEIiAmJiBib2R5Lmxlbmd0aCkgaW5pdC5ib2R5ID0gYm9keTsKCiAgdmFyIHVwc3RyZWFtUmVzOwogIHRyeSB7CiAgICB1cHN0cmVhbVJlcyA9IGF3YWl0IGZldGNoKHVwc3RyZWFtLCBpbml0KTsKICB9IGNhdGNoIChlKSB7CiAgICByZXMuc3RhdHVzQ29kZSA9IDUwMjsKICAgIHJlcy5zZXRIZWFkZXIoIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uOyBjaGFyc2V0PXV0Zi04Iik7CiAgICByZXMuZW5kKEpTT04uc3RyaW5naWZ5KHsgZXJyb3I6IHsgbWVzc2FnZTogIu2UhOuhneyLnOqwgCBOVklESUEg7ISc67KE7JeQIOyXsOqysO2VmOyngCDrqrvtlojsirXri4jri6Q6ICIgKyAoZSAmJiBlLm1lc3NhZ2UgPyBlLm1lc3NhZ2UgOiBTdHJpbmcoZSkpIH0gfSkpOwogICAgcmV0dXJuOwogIH0KCiAgcmVzLnN0YXR1c0NvZGUgPSB1cHN0cmVhbVJlcy5zdGF0dXM7CiAgdmFyIGN0ID0gdXBzdHJlYW1SZXMuaGVhZGVycy5nZXQoImNvbnRlbnQtdHlwZSIpOwogIGlmIChjdCkgcmVzLnNldEhlYWRlcigiQ29udGVudC1UeXBlIiwgY3QpOwogIHJlcy5zZXRIZWFkZXIoIkNhY2hlLUNvbnRyb2wiLCAibm8tc3RvcmUiKTsKCiAgaWYgKCF1cHN0cmVhbVJlcy5ib2R5KSB7IHJlcy5lbmQoKTsgcmV0dXJuOyB9CiAgLy8g7J2R64u17J2EIOyKpO2KuOumrOuwjeycvOuhnCDqt7jrjIDroZwg7Z2Y66Ck67O064OF64uI64ukICjssYTtjIUgU1NFIOyKpO2KuOumrOuwjSDsnKDsp4ApLgogIHZhciByZWFkZXIgPSB1cHN0cmVhbVJlcy5ib2R5LmdldFJlYWRlcigpOwogIHRyeSB7CiAgICBmb3IgKDs7KSB7CiAgICAgIHZhciBzdGVwID0gYXdhaXQgcmVhZGVyLnJlYWQoKTsKICAgICAgaWYgKHN0ZXAuZG9uZSkgYnJlYWs7CiAgICAgIHJlcy53cml0ZShCdWZmZXIuZnJvbShzdGVwLnZhbHVlKSk7CiAgICB9CiAgfSBjYXRjaCAoZSkgewogICAgLy8g7Iqk7Yq466a8IOykkeqwhCDsmKTrpZgg4oCUIOydtOuvuCDsnZHri7XsnbQg7Iuc7J6R65CQ7Jy866+A66GcIOq3uOuMgOuhnCDsooXro4ztlanri4jri6QuCiAgfQogIHJlcy5lbmQoKTsKfTsKCi8vIFZlcmNlbOydtCDsmpTssq0g67O466y47J2EIOuvuOumrCDtjIzsi7HtlZjsp4Ag7JWK64+E66GdIO2VqeuLiOuLpCAo7JuQ67O4IOq3uOuMgOuhnCDsoITri6wpLgptb2R1bGUuZXhwb3J0cy5jb25maWcgPSB7IGFwaTogeyBib2R5UGFyc2VyOiBmYWxzZSB9IH07Cg==" download="nvidia.js">프록시 함수 파일 받기 (nvidia.js)</a>
+            </div>
+            <div class="kc-note" id="nimProxyNote"></div>
           </div>
           <div class="keycard">
             <div class="kc-head">
@@ -464,6 +471,14 @@
         <div class="addrow">
           <input type="text" id="customGemini" placeholder="모델 ID 직접 추가 — 예: gemini-2.5-flash" spellcheck="false" />
           <button class="btn small" id="addGemini" type="button">추가</button>
+          <button class="btn small" id="btnCatalogGemini" type="button">전체 모델 목록 불러오기</button>
+        </div>
+        <div class="catalog hidden" id="catalogGemini">
+          <div class="cat-head">
+            <input type="text" id="catSearchGemini" placeholder="모델 검색 — 이름 또는 ID (예: gemini, flash, pro)" spellcheck="false" />
+            <span class="kc-status" id="catStatusGemini"></span>
+          </div>
+          <div class="cat-list" id="catListGemini"></div>
         </div>
 
         <div class="group-label">OpenRouter</div>
@@ -635,13 +650,16 @@
 
       /* ================= state ================= */
       var LS_KEYS = "multi-ai-chat:keys";
+      var LS_PREFS = "multi-ai-chat:prefs";
       var state = {
         keys: { gemini: "", openrouter: "", nvidia: "", groq: "" },
+        useProxy: true,
         models: [],          // {uid, provider, model, name, desc, free, custom}
         activeUid: null,
         messages: [],        // {role, content, provider, model, name, usage, elapsed, error, partial}
         running: null,       // {msg, controller, startedAt, timerId, bubble, metaEl, text}
         orCatalog: null,
+        gemCatalog: null,
         nimCatalog: null,
         groqCatalog: null,
         imgBusy: false
@@ -700,6 +718,36 @@
         });
         refreshKeyUI();
         toast("저장된 API 키를 모두 지웠습니다.");
+      }
+
+      /* ================= preferences (프록시 설정) ================= */
+      function loadPrefs() {
+        try {
+          var raw = window.localStorage.getItem(LS_PREFS);
+          if (!raw) return;
+          var j = JSON.parse(raw);
+          if (typeof j.useProxy === "boolean") state.useProxy = j.useProxy;
+        } catch (e) { /* storage unavailable — 기본값 사용 */ }
+      }
+      function savePrefs() {
+        try { window.localStorage.setItem(LS_PREFS, JSON.stringify({ useProxy: state.useProxy })); } catch (e) {}
+      }
+      var NIM_PROXY_NOTE_ON = "NVIDIA는 build.nvidia.com 이외의 페이지에서 오는 브라우저 직접 호출을 CORS 정책으로 막습니다. 그래서 NVIDIA 호출은 이 페이지와 함께 배포된 프록시(/api/nvidia)를 경유합니다 — 키는 내 배포의 서버 함수로만 전달되고, 다른 업체의 공개 프록시는 거치지 않습니다. 배포 구성: repo 루트에 index.html, api 폴더 안에 nvidia.js(위 버튼으로 받을 수 있습니다). api/nvidia.js가 없는 환경에서는 프록시가 없어 NVIDIA 연결이 실패합니다.";
+      var NIM_PROXY_NOTE_OFF = "프록시를 끄면 브라우저가 NVIDIA API를 직접 호출합니다. NVIDIA의 CORS 정책 때문에 build.nvidia.com 이외의 페이지에서는 직접 호출이 차단되어, 키가 올바라도 연결이 실패합니다.";
+      function renderProxyUI() {
+        var btn = $("proxyToggle");
+        if (btn) {
+          btn.textContent = "프록시 경유: " + (state.useProxy ? "켜짐" : "꺼짐");
+          btn.classList.toggle("on", state.useProxy);
+        }
+        var note = $("nimProxyNote");
+        if (note) note.textContent = state.useProxy ? NIM_PROXY_NOTE_ON : NIM_PROXY_NOTE_OFF;
+      }
+      function toggleProxy() {
+        state.useProxy = !state.useProxy;
+        savePrefs();
+        renderProxyUI();
+        toast(state.useProxy ? "NVIDIA 프록시 경유를 켰습니다." : "NVIDIA 프록시 경유를 껐습니다. 직접 호출은 CORS로 차단됩니다.", !state.useProxy);
       }
 
       /* ================= dom helpers ================= */
@@ -897,20 +945,48 @@
          CORS headers to build.nvidia.com itself — verified by preflight: any
          other origin gets no Access-Control-Allow-Origin, so the browser kills
          the request before it is answered and fetch reports a bare
-         "Failed to fetch", whatever the key. A static page cannot relay the
-         call without handing the user's API key to a third-party proxy, so
-         NVIDIA calls stay direct and a network-level failure is reported with
-         its real cause instead of the raw browser error. */
-      var NIM_CORS_MSG = "NVIDIA API가 build.nvidia.com 이외의 웹페이지에서의 브라우저 호출을 CORS 정책으로 차단하고 있어, 이 페이지에서는 직접 연결할 수 없습니다. API 키의 문제가 아닙니다. NVIDIA 키를 직접 쓰려면 Cherry Studio 같은 데스크톱 앱에서 연결하거나, 자체 프록시를 둔 배포가 필요합니다.";
+         "Failed to fetch", whatever the key. Direct browser calls therefore
+         can never work from this page. Instead, NVIDIA calls are routed
+         through /api/nvidia — a small serverless function deployed alongside
+         this page (source: data:application/javascript;base64,Ly8gTlZJRElBIEFQSSDtlITroZ3si5wg4oCUIFZlcmNlbCDshJzrsoTrpqzsiqQg7ZWo7IiYCi8vCi8vIOuwsO2PrCDrsKnrspU6IOydtCDtjIzsnbzsnYQgR2l0SHViIHJlcG/snZggYXBpIO2PtOuNlCDslYjsl5AgbnZpZGlhLmpzIOudvOuKlCDsnbTrpoTsnLzroZwKLy8g64Sj7Jy87IS47JqUIChyZXBvIOujqO2KuC9pbmRleC5odG1sLCByZXBvIOujqO2KuC9hcGkvbnZpZGlhLmpzIOq1rOyEsSkuCi8vIFZlcmNlbOydtCDsnpDrj5nsnLzroZwgL2FwaS9udmlkaWEg7JeU65Oc7Y+s7J247Yq466GcIOuwsO2PrO2VqeuLiOuLpC4KLy8KLy8g7Jet7ZWgOiDruIzrnbzsmrDsoIDqsIAg67O064K4IE5WSURJQSDsmpTssq3snYQg7J20IO2VqOyImOqwgCDrjIDsi6AgTlZJRElBIOyEnOuyhOuhnCDsoITri6ztlanri4jri6QuCi8vIE5WSURJQSBBUEnripQgYnVpbGQubnZpZGlhLmNvbSDsnbTsmbjsnZgg7Ju57Y6Y7J207KeA7JeQ7IScIOyYpOuKlCDruIzrnbzsmrDsoIAg7KeB7KCRIO2YuOy2nOydhAovLyBDT1JTIOygleyxheycvOuhnCDssKjri6jtlZjsp4Drp4wsIOyEnOuyhOyXkOyEnCDrs7TrgrTripQg7Zi47Lac7J2AIOywqOuLqO2VmOyngCDslYrsirXri4jri6QuCi8vIEFQSSDtgqTripQg7J20IO2VqOyImOuhnOunjCDsoITri6zrkJjqs6Ag7Ja065SU7JeQ64+EIOyggOyepeuQmOyngCDslYrsirXri4jri6QuCi8vCi8vIO2XiOyaqSDqsr3roZwgKHBhdGgg7L+866asIO2MjOudvOuvuO2EsCk6Ci8vICAgdjEvbW9kZWxzICAgICAgICAgICAgLT4gaHR0cHM6Ly9pbnRlZ3JhdGUuYXBpLm52aWRpYS5jb20vdjEvbW9kZWxzCi8vICAgdjEvY2hhdC9jb21wbGV0aW9ucyAgLT4gaHR0cHM6Ly9pbnRlZ3JhdGUuYXBpLm52aWRpYS5jb20vdjEvY2hhdC9jb21wbGV0aW9ucwovLyAgIGdlbmFpLzwuLi4g64KY66i47KeAPiAgIC0+IGh0dHBzOi8vYWkuYXBpLm52aWRpYS5jb20vdjEvZ2VuYWkvPC4uLiDrgpjrqLjsp4A+Ci8vIOq3uCDsmbgg6rK966Gc64qUIDQwMOycvOuhnCDqsbDrtoDtlanri4jri6QgKOqzteqwnCDtlITroZ3si5zroZwg7JWF7JqpIOuwqeyngCkuCgptb2R1bGUuZXhwb3J0cyA9IGFzeW5jIGZ1bmN0aW9uIGhhbmRsZXIocmVxLCByZXMpIHsKICByZXMuc2V0SGVhZGVyKCJ4LWFpLXByb3h5IiwgIm52aWRpYSIpOwoKICB2YXIgcmF3UGF0aCA9IChyZXEucXVlcnkgJiYgcmVxLnF1ZXJ5LnBhdGgpIHx8ICIiOwogIGlmIChBcnJheS5pc0FycmF5KHJhd1BhdGgpKSByYXdQYXRoID0gcmF3UGF0aC5qb2luKCIvIik7CiAgdmFyIHBhdGggPSBTdHJpbmcocmF3UGF0aCkucmVwbGFjZSgvXlwvKy8sICIiKTsKCiAgdmFyIHVwc3RyZWFtID0gbnVsbDsKICBpZiAocGF0aCA9PT0gInYxL21vZGVscyIgfHwgcGF0aCA9PT0gInYxL2NoYXQvY29tcGxldGlvbnMiKSB7CiAgICB1cHN0cmVhbSA9ICJodHRwczovL2ludGVncmF0ZS5hcGkubnZpZGlhLmNvbS8iICsgcGF0aDsKICB9IGVsc2UgaWYgKHBhdGguaW5kZXhPZigiZ2VuYWkvIikgPT09IDAgJiYgcGF0aC5sZW5ndGggPiAiZ2VuYWkvIi5sZW5ndGgpIHsKICAgIHVwc3RyZWFtID0gImh0dHBzOi8vYWkuYXBpLm52aWRpYS5jb20vdjEvIiArIHBhdGg7CiAgfQogIGlmICghdXBzdHJlYW0pIHsKICAgIHJlcy5zdGF0dXNDb2RlID0gNDAwOwogICAgcmVzLnNldEhlYWRlcigiQ29udGVudC1UeXBlIiwgImFwcGxpY2F0aW9uL2pzb247IGNoYXJzZXQ9dXRmLTgiKTsKICAgIHJlcy5lbmQoSlNPTi5zdHJpbmdpZnkoeyBlcnJvcjogeyBtZXNzYWdlOiAi7ZeI7Jqp65CY7KeAIOyViuydgCDtlITroZ3si5wg6rK966Gc7J6F64uI64ukOiAiICsgcGF0aCB9IH0pKTsKICAgIHJldHVybjsKICB9CgogIC8vIOyalOyyrSDrs7jrrLjsnYQg6re464yA66GcIOydveyKteuLiOuLpCAoYm9keVBhcnNlciDruYTtmZzshLHtmZQg7ISk7KCV7J2AIO2MjOydvCDtlZjri6gg7LC47KGwKS4KICB2YXIgY2h1bmtzID0gW107CiAgYXdhaXQgbmV3IFByb21pc2UoZnVuY3Rpb24gKHJlc29sdmUsIHJlamVjdCkgewogICAgcmVxLm9uKCJkYXRhIiwgZnVuY3Rpb24gKGMpIHsgY2h1bmtzLnB1c2goYyk7IH0pOwogICAgcmVxLm9uKCJlbmQiLCByZXNvbHZlKTsKICAgIHJlcS5vbigiZXJyb3IiLCByZWplY3QpOwogIH0pOwogIHZhciBib2R5ID0gQnVmZmVyLmNvbmNhdChjaHVua3MpOwoKICB2YXIgaGVhZGVycyA9IHt9OwogIGlmIChyZXEuaGVhZGVycy5hdXRob3JpemF0aW9uKSBoZWFkZXJzWyJBdXRob3JpemF0aW9uIl0gPSByZXEuaGVhZGVycy5hdXRob3JpemF0aW9uOwogIGlmIChyZXEuaGVhZGVyc1siY29udGVudC10eXBlIl0pIGhlYWRlcnNbIkNvbnRlbnQtVHlwZSJdID0gcmVxLmhlYWRlcnNbImNvbnRlbnQtdHlwZSJdOwogIGlmIChyZXEuaGVhZGVycy5hY2NlcHQpIGhlYWRlcnNbIkFjY2VwdCJdID0gcmVxLmhlYWRlcnMuYWNjZXB0OwoKICB2YXIgaW5pdCA9IHsgbWV0aG9kOiByZXEubWV0aG9kLCBoZWFkZXJzOiBoZWFkZXJzIH07CiAgaWYgKHJlcS5tZXRob2QgIT09ICJHRVQiICYmIHJlcS5tZXRob2QgIT09ICJIRUFEIiAmJiBib2R5Lmxlbmd0aCkgaW5pdC5ib2R5ID0gYm9keTsKCiAgdmFyIHVwc3RyZWFtUmVzOwogIHRyeSB7CiAgICB1cHN0cmVhbVJlcyA9IGF3YWl0IGZldGNoKHVwc3RyZWFtLCBpbml0KTsKICB9IGNhdGNoIChlKSB7CiAgICByZXMuc3RhdHVzQ29kZSA9IDUwMjsKICAgIHJlcy5zZXRIZWFkZXIoIkNvbnRlbnQtVHlwZSIsICJhcHBsaWNhdGlvbi9qc29uOyBjaGFyc2V0PXV0Zi04Iik7CiAgICByZXMuZW5kKEpTT04uc3RyaW5naWZ5KHsgZXJyb3I6IHsgbWVzc2FnZTogIu2UhOuhneyLnOqwgCBOVklESUEg7ISc67KE7JeQIOyXsOqysO2VmOyngCDrqrvtlojsirXri4jri6Q6ICIgKyAoZSAmJiBlLm1lc3NhZ2UgPyBlLm1lc3NhZ2UgOiBTdHJpbmcoZSkpIH0gfSkpOwogICAgcmV0dXJuOwogIH0KCiAgcmVzLnN0YXR1c0NvZGUgPSB1cHN0cmVhbVJlcy5zdGF0dXM7CiAgdmFyIGN0ID0gdXBzdHJlYW1SZXMuaGVhZGVycy5nZXQoImNvbnRlbnQtdHlwZSIpOwogIGlmIChjdCkgcmVzLnNldEhlYWRlcigiQ29udGVudC1UeXBlIiwgY3QpOwogIHJlcy5zZXRIZWFkZXIoIkNhY2hlLUNvbnRyb2wiLCAibm8tc3RvcmUiKTsKCiAgaWYgKCF1cHN0cmVhbVJlcy5ib2R5KSB7IHJlcy5lbmQoKTsgcmV0dXJuOyB9CiAgLy8g7J2R64u17J2EIOyKpO2KuOumrOuwjeycvOuhnCDqt7jrjIDroZwg7Z2Y66Ck67O064OF64uI64ukICjssYTtjIUgU1NFIOyKpO2KuOumrOuwjSDsnKDsp4ApLgogIHZhciByZWFkZXIgPSB1cHN0cmVhbVJlcy5ib2R5LmdldFJlYWRlcigpOwogIHRyeSB7CiAgICBmb3IgKDs7KSB7CiAgICAgIHZhciBzdGVwID0gYXdhaXQgcmVhZGVyLnJlYWQoKTsKICAgICAgaWYgKHN0ZXAuZG9uZSkgYnJlYWs7CiAgICAgIHJlcy53cml0ZShCdWZmZXIuZnJvbShzdGVwLnZhbHVlKSk7CiAgICB9CiAgfSBjYXRjaCAoZSkgewogICAgLy8g7Iqk7Yq466a8IOykkeqwhCDsmKTrpZgg4oCUIOydtOuvuCDsnZHri7XsnbQg7Iuc7J6R65CQ7Jy866+A66GcIOq3uOuMgOuhnCDsooXro4ztlanri4jri6QuCiAgfQogIHJlcy5lbmQoKTsKfTsKCi8vIFZlcmNlbOydtCDsmpTssq0g67O466y47J2EIOuvuOumrCDtjIzsi7HtlZjsp4Ag7JWK64+E66GdIO2VqeuLiOuLpCAo7JuQ67O4IOq3uOuMgOuhnCDsoITri6wpLgptb2R1bGUuZXhwb3J0cy5jb25maWcgPSB7IGFwaTogeyBib2R5UGFyc2VyOiBmYWxzZSB9IH07Cg==, deployed as api/nvidia.js) that
+         relays the request server-side, where CORS does not apply. The key
+         travels only to that same-deployment function, never to a third-party
+         proxy. The proxy can be switched off in the NVIDIA key card, in which
+         case calls go direct again and fail with the CORS explanation. */
+      var NIM_CORS_MSG = "NVIDIA API가 build.nvidia.com 이외의 웹페이지에서의 브라우저 호출을 CORS 정책으로 차단하고 있어, 직접 연결할 수 없습니다. API 키의 문제가 아닙니다. NVIDIA 키 설정에서 '프록시 경유'를 켜면 이 페이지와 함께 배포된 프록시(/api/nvidia)를 통해 연결할 수 있습니다.";
+      var NIM_PROXY_MSG = "프록시(/api/nvidia)에 닿지 못했습니다. 이 프록시는 index.html과 함께 배포되는 서버 함수(api/nvidia.js)입니다. GitHub repo에 api 폴더와 그 안의 nvidia.js가 포함된 상태로 Vercel에 배포돼 있어야 동작합니다. (정적 파일만 있는 환경에서는 프록시가 없습니다.)";
+      function nimErrorMsg() { return state.useProxy ? NIM_PROXY_MSG : NIM_CORS_MSG; }
       function isNetworkError(err) {
         if (!err) return false;
         if (err.name === "AbortError") return false;
         if (err instanceof TypeError) return true;
         return /failed to fetch|networkerror|load failed/i.test(err.message || String(err));
       }
+      function nimProxyUrl(url) {
+        var INTEG = "https://integrate.api.nvidia.com/v1/";
+        var GENAI = "https://ai.api.nvidia.com/v1/genai/";
+        if (url.indexOf(INTEG) === 0) return "/api/nvidia?path=" + encodeURIComponent("v1/" + url.slice(INTEG.length));
+        if (url.indexOf(GENAI) === 0) return "/api/nvidia?path=" + encodeURIComponent("genai/" + url.slice(GENAI.length));
+        return url;
+      }
       function nimFetch(url, options) {
-        return fetch(url, options).catch(function (err) {
-          if (isNetworkError(err)) throw new Error(NIM_CORS_MSG);
+        if (!state.useProxy) {
+          return fetch(url, options).catch(function (err) {
+            if (isNetworkError(err)) throw new Error(NIM_CORS_MSG);
+            throw err;
+          });
+        }
+        return fetch(nimProxyUrl(url), options).then(function (res) {
+          // The deployed proxy marks its responses with x-ai-proxy. A 404/405
+          // without that mark means the platform answered, not the proxy —
+          // i.e. api/nvidia.js is not deployed next to this page.
+          if ((res.status === 404 || res.status === 405) && !res.headers.get("x-ai-proxy")) {
+            throw new Error(NIM_PROXY_MSG);
+          }
+          return res;
+        }).catch(function (err) {
+          if (err && err.message === NIM_PROXY_MSG) throw err;
+          if (isNetworkError(err)) throw new Error(NIM_PROXY_MSG);
           throw err;
         });
       }
@@ -968,7 +1044,7 @@
           .then(function (j) { setStatus("nvidia", "statusNvidia", "연결 확인됨 — 사용 가능한 모델 " + (j.data || []).length + "개", "ok"); })
           .catch(function (err) {
             var msg = err.message || String(err);
-            if (isNetworkError(err)) msg = NIM_CORS_MSG;
+            if (isNetworkError(err)) msg = nimErrorMsg();
             setStatus("nvidia", "statusNvidia", "연결 실패: " + msg, "bad");
           });
       }
@@ -1122,6 +1198,59 @@
           btn.disabled = !!modelByUid(uid);
           btn.addEventListener("click", function () {
             registerModel("groq", { model: it.id, name: it.id, desc: "Groq" }, true);
+            btn.textContent = "추가됨"; btn.disabled = true;
+            setActive(uid, true);
+          });
+          row.appendChild(btn);
+          list.appendChild(row);
+        });
+      }
+
+      function loadCatalogGemini() {
+        $("catalogGemini").classList.remove("hidden");
+        var st = $("catStatusGemini");
+        var key = state.keys.gemini.trim();
+        if (!key) { st.textContent = "모델 목록은 Gemini API 키가 필요합니다. 키 없이도 위 프리셋 4개는 선택할 수 있습니다."; return; }
+        if (state.gemCatalog) { renderCatalogGemini(); return; }
+        st.textContent = "목록을 불러오는 중…";
+        fetch("https://generativelanguage.googleapis.com/v1beta/models", { headers: { "x-goog-api-key": key } })
+          .then(function (res) { if (!res.ok) return res.text().then(function (t) { throw httpError(res, t); }); return res.json(); })
+          .then(function (j) {
+            state.gemCatalog = (j.models || []).filter(function (m) {
+              return (m.supportedGenerationMethods || []).indexOf("generateContent") >= 0;
+            });
+            st.textContent = "총 " + state.gemCatalog.length + "개 모델";
+            renderCatalogGemini();
+          })
+          .catch(function (err) { st.textContent = "목록 로드 실패: " + (err.message || err); });
+      }
+      function renderCatalogGemini() {
+        var list = $("catListGemini");
+        var q = $("catSearchGemini").value.trim().toLowerCase();
+        list.innerHTML = "";
+        var items = (state.gemCatalog || []).filter(function (m) {
+          var id = (m.name || "").replace(/^models\//, "");
+          return !q || (id + " " + (m.displayName || "")).toLowerCase().indexOf(q) >= 0;
+        }).slice(0, 200);
+        if (!items.length) { list.appendChild(el("div", "cat-empty", "검색 결과가 없습니다.")); return; }
+        items.forEach(function (m) {
+          var id = (m.name || "").replace(/^models\//, "");
+          var row = el("div", "catrow");
+          var left = el("div"); left.style.minWidth = "0";
+          left.appendChild(el("div", "cname", m.displayName || id));
+          left.appendChild(el("div", "cid mono", id));
+          row.appendChild(left);
+          if (m.inputTokenLimit) {
+            var meta = el("div", "cmeta");
+            meta.appendChild(el("div", null, "컨텍스트 " + fmtNum(m.inputTokenLimit)));
+            row.appendChild(meta);
+          }
+          var uid = uidOf("gemini", id);
+          var btn = el("button", "btn small", modelByUid(uid) ? "추가됨" : "추가");
+          btn.type = "button";
+          btn.disabled = !!modelByUid(uid);
+          btn.addEventListener("click", function () {
+            registerModel("gemini", { model: id, name: m.displayName || id, desc: "Gemini 직접 API" }, true);
             btn.textContent = "추가됨"; btn.disabled = true;
             setActive(uid, true);
           });
@@ -1434,7 +1563,7 @@
             msg.error = true;
             var rawMsg = err && err.message ? err.message : String(err);
             if (isAbort) rawMsg = "사용자가 생성을 중단했습니다.";
-            else if (msg.provider === "nvidia" && isNetworkError(err)) rawMsg = NIM_CORS_MSG;
+            else if (msg.provider === "nvidia" && isNetworkError(err)) rawMsg = nimErrorMsg();
             else if (/failed to fetch|networkerror|load failed/i.test(rawMsg)) rawMsg = "네트워크 오류 — API 서버에 연결하지 못했습니다. 인터넷 연결을 확인하고 다시 시도하세요.";
             msg.content = "오류: " + rawMsg;
             dom.bubble.className = "bubble err";
@@ -1663,7 +1792,7 @@
           showImgResult(url, sel, size, Date.now() - startedAt, note);
         }).catch(function (err) {
           var rawMsg = err && err.message ? err.message : String(err);
-          if (sel.provider === "nvidia" && isNetworkError(err)) rawMsg = NIM_CORS_MSG;
+          if (sel.provider === "nvidia" && isNetworkError(err)) rawMsg = nimErrorMsg();
           else if (/failed to fetch|networkerror|load failed/i.test(rawMsg)) rawMsg = "네트워크 오류 — API 서버에 연결하지 못했습니다. 인터넷 연결을 확인하고 다시 시도하세요.";
           showImgError("오류: " + rawMsg);
         }).then(function () {
@@ -1693,6 +1822,9 @@
       /* ================= wiring ================= */
       function init() {
         loadKeys();
+        loadPrefs();
+        renderProxyUI();
+        $("proxyToggle").addEventListener("click", toggleProxy);
         bindKey("gemini", "keyGemini", "statusGemini", "eyeGemini");
         bindKey("openrouter", "keyOpenrouter", "statusOpenrouter", "eyeOpenrouter");
         bindKey("nvidia", "keyNvidia", "statusNvidia", "eyeNvidia");
@@ -1723,6 +1855,8 @@
         $("catSearchNvidia").addEventListener("input", renderCatalogNvidia);
         $("btnCatalogGroq").addEventListener("click", loadCatalogGroq);
         $("catSearchGroq").addEventListener("input", renderCatalogGroq);
+        $("btnCatalogGemini").addEventListener("click", loadCatalogGemini);
+        $("catSearchGemini").addEventListener("input", renderCatalogGemini);
         $("tabChat").addEventListener("click", function () { switchTab("chat"); });
         $("tabImage").addEventListener("click", function () { switchTab("image"); });
         $("imgModelSelect").addEventListener("change", updateImgKeyStat);
